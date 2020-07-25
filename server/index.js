@@ -26,7 +26,7 @@ app.listen(5000, () => {
             res.json(newCegInfo.rows[0]);
 
         } catch (error) {
-            console.error(err.message);
+            console.error(error.message);
         }
 })
 
@@ -39,7 +39,7 @@ app.listen(5000, () => {
             res.json(allPartners.rows);
 
         } catch (error) {
-            console.error(err.message);
+            console.error(error.message);
         }
     })
 
@@ -52,7 +52,7 @@ app.listen(5000, () => {
 
             res.json(partner);
         } catch (error) {
-            console.error(err.message);
+            console.error(error.message);
         }
     })
 
@@ -67,7 +67,7 @@ app.listen(5000, () => {
 
             res.json("Partner was updated!");
         } catch (error) {
-            console.error(err.message);
+            console.error(error.message);
         }
 
     })
@@ -81,6 +81,6 @@ app.listen(5000, () => {
             
             res.json("Partner was deleted!")
         } catch (error) {
-            console.error(err.message);
+            console.error(error.message);
         }
     })
