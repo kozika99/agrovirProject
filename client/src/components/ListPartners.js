@@ -1,5 +1,4 @@
 import React, {Fragment, useEffect, useState} from "react";
-
 import EditPartner from "./EditPartner";
 
 const ListPartners = () => {
@@ -13,7 +12,8 @@ const ListPartners = () => {
         const deletePartner = await fetch(`http://localhost:5000/partners/${id}`, {
         method: "DELETE"});
 
-        setPartners(partners.filter(partners => partners.ceginfo_id !== id));
+
+        setPartners(partners.filter(partners => partners.cegId !== id));
       } catch (error) {
         console.error(error.message);
       }
@@ -35,7 +35,7 @@ const ListPartners = () => {
     }, []);
 
     return <Fragment>
-        <table class="table mt-5 text-center">
+        <table class="table">
     <thead>
       <tr>
         <th>Név</th>
@@ -53,14 +53,22 @@ const ListPartners = () => {
     </thead>
     <tbody>
       {partners.map(partners =>(
-          <tr key={partners.ceginfo_id}>
+          <tr key={partners.cegId}>
               <td>{partners.nev}</td>
+              <td>{partners.cegforma}</td>
+              <td>{partners.adoszam}</td>
+              <td>{partners.cegjegyzekszam}</td>
+              <td>{partners.telepules}</td>
+              <td>{partners.cim}</td>
+              <td>{partners.telefonszam}</td>
+              <td>{partners.bankszamlaszam}</td>
+              <td>{partners.megjegyzes}</td>
               <td>
                 <EditPartner partner = {partners}/>
               </td>
               <td><button 
-                className="btn btn-danger" 
-                onClick={() => deletePartner(partners.ceginfo_id)}
+                className="btn btn-danger"
+                onClick={() => deletePartner(partners.cegId)}
               >Delete</button></td>
           </tr>
       ))}
