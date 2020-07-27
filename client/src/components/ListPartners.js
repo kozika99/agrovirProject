@@ -1,7 +1,23 @@
 import React, {Fragment, useEffect, useState} from "react";
 
+import EditPartner from "./EditPartner";
+
 const ListPartners = () => {
     const [partners, setPartners] = useState([]);
+
+
+    // delete partner function
+
+    const deletePartner = async(id) => {
+      try {
+        const deletePartner = await fetch(`http://localhost:5000/partners/${id}`, {
+        method: "DELETE"});
+
+        setPartners(partners.filter(partners => partners.ceginfo_id !== id));
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
 
     const getPartners = async() => {
         try {
@@ -31,19 +47,21 @@ const ListPartners = () => {
         <th>Telefonszám</th>
         <th>Bankszámlaszám</th>
         <th>Megjegyzés</th>
+        <th></th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
-        {/*<tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>john@example.com</td>
-      </tr>*/}
-      {partners.map(partner =>(
-          <tr>
-              <td>{partner.nev}</td>
-              <td>Modify</td>
-              <td>Delete</td>
+      {partners.map(partners =>(
+          <tr key={partners.ceginfo_id}>
+              <td>{partners.nev}</td>
+              <td>
+                <EditPartner partner = {partners}/>
+              </td>
+              <td><button 
+                className="btn btn-danger" 
+                onClick={() => deletePartner(partners.ceginfo_id)}
+              >Delete</button></td>
           </tr>
       ))}
     </tbody>
