@@ -18,13 +18,26 @@ app.listen(5000, () => {
 
     app.post("/partners", async(req, res) =>{
         try {
-            const { nev } = req.body;
+            //ceginfo tabla
+            const {nev, cegforma, adoszam, cegjegyzekszam, bankszamlaszam} = req.body;
+            
+
             const newCegInfo = await pool.query(
-            "INSERT INTO ceginfo (nev) VALUES($1) RETURNING *", 
-            [nev]);
+            "INSERT INTO ceginfo (nev, cegforma, adoszam, cegjegyzekszam, bankszamlaszam) VALUES($1, $2, $3, $4, $5) RETURNING *", 
+            [nev, cegforma, adoszam, cegjegyzekszam, bankszamlaszam]);
 
             res.json(newCegInfo.rows[0]);
 
+            //cegelerhetoseg tabla
+            const {telepules, cim, telefonszam, megjegyzes} = req.body;
+
+            const newCegElerhetoseg = await pool.query(
+            "INSERT INTO cegelerhetoseg(telepules, cim, telefonszam, megjegyzes) VALUES($1, $2, $3, $4) RETURNING *",
+            [telepules, cim, telefonszam, megjegyzes]);
+
+            res.json(newCegElerhetoseg[0]);
+            
+            
         } catch (error) {
             console.error(error.message);
         }
