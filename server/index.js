@@ -21,7 +21,6 @@ app.listen(5000, () => {
             //ceginfo tabla
             const {nev, cegforma, adoszam, cegjegyzekszam, bankszamlaszam} = req.body;
             
-
             const newCegInfo = await pool.query(
             "INSERT INTO ceginfo (nev, cegforma, adoszam, cegjegyzekszam, bankszamlaszam) VALUES($1, $2, $3, $4, $5) RETURNING *", 
             [nev, cegforma, adoszam, cegjegyzekszam, bankszamlaszam]);
@@ -48,7 +47,7 @@ app.listen(5000, () => {
 
     app.get("/partners", async(req, res) =>{
         try {
-            const allPartners = await pool.query("SELECT * FROM ceginfo");
+            const allPartners = await pool.query("SELECT * FROM ceginfo INNER JOIN cegelerhetoseg ON ceginfo.cegId=cegelerhetoseg.cegId;");
             res.json(allPartners.rows);
 
         } catch (error) {
@@ -61,7 +60,7 @@ app.listen(5000, () => {
     app.get("/partners/:id", async(req, res)=>{
         try {
             const {id} = req.params;
-            const partner = await pool.query("SELECT * FROM ceginfo WHERE ceginfo_id = $1", [id]);
+            const partner = await pool.query("SELECT * FROM ceginfo INNER JOIN cegelerhetoseg ON ceginfo.cegId=cegelerhetoseg.cegId WHERE ceginfo.cegId = $1", [id]);
 
             res.json(partner);
         } catch (error) {
@@ -74,9 +73,15 @@ app.listen(5000, () => {
     app.put("/partners/:id", async(req, res)=>{
         try {
             const {id} = req.params;
-            const {nev} = req.body;
-            const updatePartner = await pool.query("UPDATE ceginfo SET nev = $1 WHERE ceginfo_id = $2", 
-            [nev, id]);
+
+            const {nev, cegforma, adoszam, cegjegyzekszam, bankszamlaszam} = req.body;
+            const updateCegInfo = await pool.query("UPDATE ceginfo AS ci SET nev = $1, cegforma = $2, adoszam = $3, cegjegyzekszam = $4, bankszamlaszam = $5 FROM cegelerhetoseg AS ce WHERE ci.cegid = ce.cegid AND ci.cegid = $6", 
+            [nev, cegforma, adoszam, cegjegyzekszam, bankszamlaszam, id]);
+
+            const {telepules, cim, telefonszam, megjegyzes} = req.body;
+            const updateCegElerhetoseg = await pool.query("UPDATE cegelerhetoseg AS ce SET telepules = $1, cim = $2, telefonszam = $3, megjegyzes = $4 FROM ceginfo AS ci WHERE ci.cegid = ce.cegid AND ce.cegid = $5",
+            [telepules, cim, telefonszam, megjegyzes, id]);
+            
 
             res.json("Partner was updated!");
         } catch (error) {
@@ -90,7 +95,7 @@ app.listen(5000, () => {
     app.delete("/partners/:id", async(req, res)=>{
         try {
             const {id} = req.params;
-            const deletePartner = await pool.query("DELETE FROM ceginfo WHERE ceginfo_id = $1", [id]);
+            const deletePartner = await pool.query("DELETE FROM ceginfo WHERE cegId = $1;", [id]);
             
             res.json("Partner was deleted!")
         } catch (error) {
