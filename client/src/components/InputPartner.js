@@ -33,7 +33,7 @@ const InputPartner = () => {
 <div class="container">
   <h2>Partner List</h2>
     <button type="button" class="btn btn-primary" data-toggle="modal" href="#myModal">New Partner</button>
-    <button type="button" class="btn btn-secondary" data-toggle="modal" >Export</button>
+    <button type="button" class="btn btn-secondary" data-toggle="modal">Export</button>
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
       <div class="modal-content">
