@@ -34,12 +34,12 @@ const EditPartner = ({ partner }) => {
     return (
         <Fragment>
             
-<button type="button" class="btn btn-warning" data-toggle="modal" data-target={`#id${partner.cegId}`} >
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target={`#id${partner.nev}`} >
   Edit
 </button>
 
 
-<div class="modal" id={`id${partner.cegId}`}>
+<div class="modal" id={`id${partner.nev}`}>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -51,11 +51,11 @@ const EditPartner = ({ partner }) => {
             <div class="form-row">
                 <div class="col">
                     <label for="exampleInputNév">Név</label>
-                    <input type="text" class="form-control" id="exampleInputNev1" placeholder="Cégnév" value={'nev'} onChange={e => setNev(e.target.value)} />
+                    <input type="text" class="form-control" id="exampleInputNev1" placeholder="Cégnév" value={nev} onChange={e => setNev(e.target.value)} />
                  </div>   
                 <div class="col">
                     <label for="exampleInputCégforma">Cégforma</label>
-                    <input type="text" class="form-control" id="exampleInputCegforma1" placeholder="Cégforma" value={'cegforma'} onChange={e => setCegforma(e.target.value)} />
+                    <input type="text" class="form-control" id="exampleInputCegforma1" placeholder="Cégforma" value={cegforma} onChange={e => setCegforma(e.target.value)} />
                 </div>
             </div>
             <div class="form-row">
@@ -87,7 +87,7 @@ const EditPartner = ({ partner }) => {
             <div class="form-group">
                 <label for="exampleInputMegjegyzés">Megjegyzés</label>
                 <input type="text" class="form-control" id="exampleInputMegjegyzés1" placeholder="Megjegyzés" value={megjegyzes} onChange={e => setMegjegyzes(e.target.value)} />
-            </div>
+            </div> 
         </form>
       </div>
 
@@ -103,7 +103,6 @@ const EditPartner = ({ partner }) => {
             Close
         </button>
       </div>
-
     </div>
   </div>
 </div>

@@ -9,11 +9,11 @@ const ListPartners = () => {
 
     const deletePartner = async(id) => {
       try {
-        const deletePartner = await fetch(`http://localhost:5000/partners/${id}`, {
+        const deletePartner1 = await fetch(`http://localhost:5000/partners/${id}`, {
         method: "DELETE"});
 
-
-        setPartners(partners.filter(partners => partners.cegId !== id));
+        console.log(deletePartner);
+        //setPartners(partners.filter(partner => partner.cegId !== id));
       } catch (error) {
         console.error(error.message);
       }
@@ -52,23 +52,23 @@ const ListPartners = () => {
       </tr>
     </thead>
     <tbody>
-      {partners.map(partners =>(
-          <tr key={partners.cegId}>
-              <td>{partners.nev}</td>
-              <td>{partners.cegforma}</td>
-              <td>{partners.adoszam}</td>
-              <td>{partners.cegjegyzekszam}</td>
-              <td>{partners.telepules}</td>
-              <td>{partners.cim}</td>
-              <td>{partners.telefonszam}</td>
-              <td>{partners.bankszamlaszam}</td>
-              <td>{partners.megjegyzes}</td>
+      {partners.map(partner =>(
+          <tr key={partner.cegId}>
+              <td>{partner.nev}</td>
+              <td>{partner.cegforma}</td>
+              <td>{partner.adoszam}</td>
+              <td>{partner.cegjegyzekszam}</td>
+              <td>{partner.telepules}</td>
+              <td>{partner.cim}</td>
+              <td>{partner.telefonszam}</td>
+              <td>{partner.bankszamlaszam}</td>
+              <td>{partner.megjegyzes}</td>
               <td>
-                <EditPartner partner = {partners}/>
+                <EditPartner partner = {partner}/>
               </td>
               <td><button 
                 className="btn btn-danger"
-                onClick={() => deletePartner(partners.cegId)}
+                onClick={() => deletePartner(partner.cegId)}
               >Delete</button></td>
           </tr>
       ))}
